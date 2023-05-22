@@ -11,7 +11,7 @@
     // enable strict type checking (recommended, reduces bugs)
     "strict": true,
     // to improve bundling, types should explicitly importes as types
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     // esmoduleinterop is oftentimes required
     "esModuleInterop": true,
     "checkJs": true,

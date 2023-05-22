@@ -26,5 +26,8 @@
       "limit": "200 ms",
       "path": "dist/*.js"
     }
-  ]
+  ],
+  "dependencies": {
+    "flat": "^5.0.2"
+  }
 }

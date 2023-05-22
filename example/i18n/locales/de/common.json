@@ -1,4 +1,5 @@
 {
+  "awaiting_payment_subject": "Warte auf Zahlung: {{title}} am {{date}}",
   "help": "Hilfe",
   "price": "Preis",
   "paid": "Bezahlt",

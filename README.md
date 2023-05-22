@@ -1,6 +1,6 @@
 # inlang plugin-template
 
-This is a template for creating a new plugin for inlang [[documentation](https://inlang.com/documentation/plugins)].
+This is a template for creating a new plugin for inlang [[documentation](https://inlang.com/documentation/plugins).
 
 ## Usage
 

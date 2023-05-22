@@ -11,7 +11,7 @@ Plugins can be imported directly from GitHub releases via jsDelivr.
 
 export async function defineConfig(env) {
   const { default: pluginName } = await env.$import(
-    "https://cdn.jsdelivr.net/gh/{username}/{repository-name}@{version}/dist/index.js"
+    "https://cdn.jsdelivr.net/gh/inlang/plugin-i18next@1/dist/index.js"
   );
 
   return {

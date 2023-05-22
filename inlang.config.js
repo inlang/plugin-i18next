@@ -12,7 +12,7 @@ export async function defineConfig(env) {
     languages: ["en", "de"],
     plugins: [
       myPlugin({
-        pathPattern: "./example/{language}.json",
+        pathPattern: "./example/i18n/locales/{language}/*.json",
       }),
     ],
   };

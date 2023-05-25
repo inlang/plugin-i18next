@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*", "./build.js"],
+  "include": ["src/**/*"],
   "compilerOptions": {
     // treat as "pure" ESM module
     "module": "Node16",
@@ -14,8 +14,7 @@
     "verbatimModuleSyntax": true,
     // esmoduleinterop is oftentimes required
     "esModuleInterop": true,
-    "checkJs": true,
-    "allowJs": true,
-    "outDir": "dist"
+    // check javascript files like the inlang.config.js file for type errors
+    "checkJs": true
   }
 }

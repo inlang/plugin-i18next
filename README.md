@@ -1,31 +1,108 @@
-# inlang plugin-template
+# inlang-plugin-json
 
-This is a template for creating a new plugin for inlang [[documentation](https://inlang.com/documentation/plugins).
+This plugin reads and writes resources that are stored as JSON. The following features are supported:
+
+- [x] key-value pair (`"key": "value"`)
+- [x] nested key-value pairs (`{ "key": { "nested-key": "value" } }`)
+
+<br>
 
 ## Usage
-
-Plugins can be imported directly from GitHub releases via jsDelivr.
 
 ```js
 // filename: inlang.config.js
 
 export async function defineConfig(env) {
-  const { default: pluginName } = await env.$import(
-    "https://cdn.jsdelivr.net/gh/inlang/plugin-i18next@1/dist/index.js"
+
+  const { default: jsonPlugin } = await env.$import(
+    "https://cdn.jsdelivr.net/gh/samuelstroschein/inlang-plugin-json@2/dist/index.js"
   );
 
   return {
-    // other properties...
-    plugins: [pluginName],
+    referenceLanguage: "en",
+    plugins: [
+      jsonPlugin({
+        pathPattern: "./resources/{language}.json",
+      })
+    ]
   };
 }
 ```
 
-The [dist](./dist/) directory is used to distribute the plugin directly via CDN like [jsDelivr](https://www.jsdelivr.com/). Using a CDN works because the inlang config uses dynamic imports to import plugins. Read the [jsDelivr documentation](https://www.jsdelivr.com/?docs=gh) on importing from GitHub.
+Take a look at the [example inlang.config.js](./example/inlang.config.js) for the plugin config and usage.
 
-For additional usage information, take a look at [example](./example/).
+<br>
 
-## Developing
+## PluginSettings
+
+Our plugin offers further configuration options that can be passed as arguments. These options include `pathPattern` and `variableReferencePattern` (optional), and can be adjusted to suit your needs.
+
+Here is the syntax for the PluginSettings object in TypeScript:
+```typescript
+type PluginSettings = {
+  pathPattern: string;
+  variableReferencePattern?: [string, string];
+};
+```
+
+### `pathPattern`
+
+To use our plugin, you need to provide a path to the directory where your language-specific files are stored. Use the dynamic path syntax `{language}` to specify the language name. Note that subfile structures are not supported.
+
+**Type definition**
+```typescript
+pathPattern: string;
+```
+
+**Example**
+```typescript
+pathPattern: "./resources/{language}.json"
+```
+
+
+### `variableReferencePattern`
+
+This setting in our plugin allows you to specify the pattern for parsing placeholders for code variables in strings. To define the parsing pattern, add `variableReferencePattern` to the jsonPlugin in your `inlang.config.js` file.
+
+The `variableReferencePattern` should be defined as a tuple that includes a prefix and a suffix pattern. These patterns create a dynamic regex under the hood to catch placeholders out of the string. If your pattern is something like this `:name`, you can provide only the prefix.
+
+Here is the type definition for `variableReferencePattern` in TypeScript:
+
+**Type definition**
+```typescript
+ variableReferencePattern?: [string, string];
+```
+
+**Example**
+```typescript
+jsonPlugin({
+  pathPattern: "somePath",
+  variableReferencePattern: ["{", "}"]
+})
+```
+
+**Common use cases**
+
+| Placeholder       | Pattern       |
+|-------------------|---------------|
+| `{placeholder}`   | `["{", "}"]`  |
+| `{{placeholder}}` | `["{{", "}}"]`|
+| `${placeholder}`  | `["${", "}"]` |
+| `%placeholder`    | `["%"]`       |
+| `[placeholder]`   | `["[", "]"]`  |
+| `:placeholder`    | `[":"]`       |
+
+<br>
+
+## Limitations
+
+If a user creates a message with a nested id i.e. `example.nested` and `example` is also a message, the plugin will break.
+
+<br>
+
+## Contributing
+
+### Getting started
 
 Run the following commands in your terminal (node and npm must be installed):
 
@@ -34,16 +111,10 @@ Run the following commands in your terminal (node and npm must be installed):
 
 `npm run dev` will start the development environment which automatically compiles the [src/index.ts](./src/index.ts) files to JavaScript ([dist/index.js](dist/index.js)), runs tests defined in `*.test.ts` files and watches changes.
 
-## Publishing
+### Publishing
 
-1. Run `npm run build` to generate a build.
-2. Commit the new build.
-3. Create a new release on GitHub that uses [Semantic Versioning (SemVer)](https://semver.org/). Take a look at [inlang-plugin-json](https://github.com/samuelstroschein/inlang-plugin-json/releases) for example releases.
-4. (Optional) Open a pull request to https://github.com/inlang/ecosystem
+Run `npm run build` to generate a build.
 
-Note:
+The [dist](./dist/) directory is used to distribute the plugin directly via CDN like [jsDelivr](https://www.jsdelivr.com/). Using a CDN works because the inlang config uses dynamic imports to import plugins.
 
-- tags are used without "v" at the beginning like: New Tag: 1.2.2
-- JSdeliver cached your plugin for `one week`. If you published a new Version and you want to debug something, you have to specify your version in the link like: ....standard-lint-rules@1.2.2/dist/index.js"
-
-![](https://camo.githubusercontent.com/dcc07ce55f0484b41bb7ca0b55bd43475e866521d47f7ce1bf997715416de2e9/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3930323533313033353830363433333238302f313036363736373833363039393338333332362f436c65616e53686f745f323032332d30312d32325f61745f31322e31342e303932782e706e67)
+Read the [jsDelivr documentation](https://www.jsdelivr.com/?docs=gh) on importing from GitHub.

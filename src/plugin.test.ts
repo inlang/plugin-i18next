@@ -1,23 +1,22 @@
-import { expect, test } from "vitest";
-import { mockEnvironment, testConfig } from "@inlang/core/test";
-import { setupConfig } from "@inlang/core/config";
-import fs from "node:fs/promises";
+import { mockEnvironment } from "@inlang/core/test";
+import { expect, it } from "vitest";
+import { plugin } from "./plugin.js";
 
-test("inlang's config validation should pass", async () => {
-  const env = await mockEnvironment({
-    copyDirectory: {
-      fs: fs,
-      paths: ["./dist", "./example"],
-    },
-  });
-
-  const module = await import("../inlang.config.js");
-
-  const config = await setupConfig({ module, env });
-
-  const [isOk, error] = await testConfig({ config });
-  if (error) {
-    throw error;
+it("should throw if the path pattern does not include the {language} placeholder", async () => {
+  const env = await mockEnvironment({});
+  await env.$fs.writeFile("./resources/en.json", "{}");
+  const x = plugin({ pathPattern: "./resources/" })(env);
+  try {
+    await x.config({});
+    throw new Error("should not reach this");
+  } catch (e) {
+    expect((e as Error).message).toContain("pathPattern");
   }
-  expect(isOk).toBe(true);
+});
+
+it("should not throw if the path pattern is valid", async () => {
+  const env = await mockEnvironment({});
+  await env.$fs.writeFile("./resources/en.json", "{}");
+  const x = plugin({ pathPattern: "./resources/{language}.json" })(env);
+  expect(await x.config({})).toBeTruthy();
 });

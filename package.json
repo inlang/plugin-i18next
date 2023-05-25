@@ -1,33 +1,38 @@
 {
+  "name": "inlang-plugin-json",
   "type": "module",
+  "module": "dist/index.js",
   "engines": {
-    "node": "^18"
+    "npm": ">=8.0.0",
+    "node": ">=18.0.0"
   },
   "scripts": {
-    "dev": "concurrently --names build,test -c auto \"npm run dev:watch\" \"npm run dev:test\"",
+    "dev": "concurrently -n build,test -c auto \"npm run dev:watch\" \"npm run dev:test\"",
     "dev:test": "vitest",
     "dev:watch": "DEV=true node ./build.js",
     "build": "node ./build.js && size-limit",
     "test": "vitest run"
   },
+  "dependencies": {
+    "@inlang/core": "^0.8.2",
+    "flat": "^5.0.2",
+    "lodash.merge": "^4.6.2"
+  },
   "devDependencies": {
-    "@inlang/core": "^0.7.8",
     "@size-limit/preset-app": "^8.2.4",
     "@types/flat": "^5.0.2",
+    "@types/lodash.merge": "^4.6.7",
     "concurrently": "^7.6.0",
     "esbuild": "^0.17.10",
-    "memfs": "^3.4.13",
+    "memfs": "^3.4.12",
     "size-limit": "^8.2.4",
-    "typescript": "^4.9.5",
-    "vitest": "^0.29.1"
+    "typescript": "^4.9.4",
+    "vitest": "^0.26.2"
   },
   "size-limit": [
     {
       "limit": "200 ms",
       "path": "dist/*.js"
     }
-  ],
-  "dependencies": {
-    "flat": "^5.0.2"
-  }
+  ]
 }

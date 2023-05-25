@@ -30,8 +30,5 @@ export type PluginSettings = {
    */
   pathPattern: string;
   variableReferencePattern?: [string, string];
-  serialize?: {
-    space?: Parameters<typeof JSON.stringify>[2];
-    flatten?: boolean;
-  }
+  ignore?: string[];
 };

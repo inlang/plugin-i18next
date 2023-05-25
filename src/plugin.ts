@@ -227,7 +227,6 @@ function parseResource(
   space: number | string,
   variableReferencePattern?: [string, string]
 ): ast.Resource {
-  console.log(variableReferencePattern);
   return {
     type: "Resource",
     metadata: {

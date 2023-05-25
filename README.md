@@ -43,7 +43,7 @@ type PluginSettings = {
 
 To use our plugin, you need to provide a path to the directory where your language-specific files are stored. Use the dynamic path syntax `{language}` to specify the language name. Note that subfile structures are not supported.
 
-**Most common - with namespace support:**
+**Most common for i18next with namespace support:**
 ```typescript
 pathPattern: "./resources/{language}/*.json"
 ```

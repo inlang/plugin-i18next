@@ -3,7 +3,7 @@ Test 2
 - prefixed json files (i18next structure)
 - two languages
 - ignored '.eslintrc.json' file
-- parse {{}} as placeholder
+- parse {{}} as placeholder (default for i18next)
 - spacing 4
 */
 

@@ -480,8 +480,7 @@ async function writeResources(
           serializeResource(
             splitedResource,
             space,
-            args.settings.variableReferencePattern &&
-              args.settings.variableReferencePattern.length > 0
+            args.settings.variableReferencePattern 
               ? args.settings.variableReferencePattern
               : ["{{", "}}"]
           )
@@ -493,8 +492,7 @@ async function writeResources(
         serializeResource(
           resource,
           space,
-          args.settings.variableReferencePattern &&
-            args.settings.variableReferencePattern.length > 0
+          args.settings.variableReferencePattern 
             ? args.settings.variableReferencePattern
             : ["{{", "}}"]
         )

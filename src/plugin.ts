@@ -146,7 +146,9 @@ export async function readResources(
           parsedMassagesForAst,
           language,
           space,
-          args.settings.variableReferencePattern
+          args.settings.variableReferencePattern 
+            ? args.settings.variableReferencePattern
+            : ["{{", "}}"]
         )
       );
     } catch {
@@ -207,7 +209,9 @@ export async function readResources(
           obj,
           language,
           space,
-          args.settings.variableReferencePattern
+          args.settings.variableReferencePattern 
+            ? args.settings.variableReferencePattern
+            : ["{{", "}}"]
         )
       );
     }
@@ -227,6 +231,7 @@ function parseResource(
   space: number | string,
   variableReferencePattern?: [string, string]
 ): ast.Resource {
+  console.log(variableReferencePattern);
   return {
     type: "Resource",
     metadata: {
@@ -411,7 +416,11 @@ async function writeResources(
 
     if (resource.body.length === 0) {
       //make a dir if resource with no messages
-      if(resourcePath.split(resource.languageTag.name.toString())[1].includes("/")){
+      if (
+        resourcePath
+          .split(resource.languageTag.name.toString())[1]
+          .includes("/")
+      ) {
         await args.$fs.mkdir(
           resourcePath.replace(
             resourcePath
@@ -420,17 +429,14 @@ async function writeResources(
             ""
           )
         );
-        if(!resourcePath.includes("/*.json")){
+        if (!resourcePath.includes("/*.json")) {
           await args.$fs.writeFile(
             resourcePath,
             JSON.stringify({}, null, space)
           );
         }
       } else {
-        await args.$fs.writeFile(
-          resourcePath,
-          JSON.stringify({}, null, space)
-        );
+        await args.$fs.writeFile(resourcePath, JSON.stringify({}, null, space));
       }
     } else if (resourcePath.includes("/*.json")) {
       //deserialize the file names
@@ -474,7 +480,10 @@ async function writeResources(
           serializeResource(
             splitedResource,
             space,
-            args.settings.variableReferencePattern
+            args.settings.variableReferencePattern &&
+              args.settings.variableReferencePattern.length > 0
+              ? args.settings.variableReferencePattern
+              : ["{{", "}}"]
           )
         );
       }
@@ -484,7 +493,10 @@ async function writeResources(
         serializeResource(
           resource,
           space,
-          args.settings.variableReferencePattern
+          args.settings.variableReferencePattern &&
+            args.settings.variableReferencePattern.length > 0
+            ? args.settings.variableReferencePattern
+            : ["{{", "}}"]
         )
       );
     }

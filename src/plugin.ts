@@ -93,9 +93,6 @@ async function getLanguages(args: {
 
 /**
  * Reading resources.
- *
- * The function merges the args from Config['readResources'] with the settings
- * and EnvironmentFunctions.
  */
 export async function readResources(
   // merging the first argument from config (which contains all arguments)
@@ -221,9 +218,8 @@ export async function readResources(
 
 /**
  * Parses a resource.
- *
- * @example
- *  parseResource({ "test": "Hello world" }, "en")
+ * 
+ * @example parseResource(resource, en, 2,["{{", "}}"])
  */
 function parseResource(
   messages: ExtendedMessagesType,
@@ -249,9 +245,8 @@ function parseResource(
 
 /**
  * Parses a message.
- *
- * @example
- *  parseMessage("test", "Hello world")
+ * 
+ * @example parseMessage("testId", "test", ["{{", "}}"])
  */
 function parseMessage(
   id: string,
@@ -323,6 +318,12 @@ function parseMessage(
   };
 }
 
+/**
+ * Recursive function to collect all strings in an object.
+ * It creates and array, that contains the string, the parents and the id.
+ * 
+ * @example collectStringsWithParents(parsedResource)
+ */
 const collectStringsWithParents = (
   obj: any,
   parents: string[] | undefined = [],
@@ -354,6 +355,11 @@ const collectStringsWithParents = (
   return results;
 };
 
+/**
+ * Detects the spacing of a JSON string.
+ * 
+ * @example detectJsonSpacing(stringifiedFile)
+ */
 const detectJsonSpacing = (jsonString: string) => {
   const patterns = [
     {
@@ -397,9 +403,8 @@ const detectJsonSpacing = (jsonString: string) => {
 
 /**
  * Writing resources.
- *
- * The function merges the args from Config['readResources'] with the settings
- * and EnvironmentFunctions.
+ * 
+ * @example writeResources({resources, settings, $fs})
  */
 async function writeResources(
   args: Parameters<InlangConfig["writeResources"]>[0] & {
@@ -503,13 +508,8 @@ async function writeResources(
 
 /**
  * Serializes a resource.
- *
- * The function un-flattens, and therefore reverses the flattening
- * in parseResource, of a given object. The result is a stringified JSON
- * that is beautified by adding (null, 2) to the arguments.
- *
- * @example
- *  serializeResource(resource)
+ * 
+ * @example serializeResource(resource, 2, ["{{", "}}"])
  */
 function serializeResource(
   resource: ast.Resource,
@@ -529,9 +529,8 @@ function serializeResource(
 
 /**
  * Serializes a message.
- *
- * Note that only the first element of the pattern is used as inlang, as of v0.3,
- * does not support more than 1 element in a pattern.
+ * 
+ * @example serializeMessage(message, ["{{", "}}"])
  */
 const serializeMessage = (
   message: ast.Message,
@@ -569,6 +568,11 @@ const serializeMessage = (
   return newObj;
 };
 
+/**
+ * Recursive function to add nested keys to an object.
+ * 
+ * @example addNestedKeys(message, ["common", "title"], "en", "test")
+ */
 const addNestedKeys = (
   obj: any,
   parentKeys: string[] | undefined,

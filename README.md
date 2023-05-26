@@ -1,8 +1,6 @@
-# plugin-i18next
+# inlang-plugin-i18next
 
 This plugin reads and writes resources in combination with i18next.
-
-<br>
 
 ## Usage
 
@@ -11,14 +9,14 @@ This plugin reads and writes resources in combination with i18next.
 
 export async function defineConfig(env) {
 
-  const { default: jsonPlugin } = await env.$import(
+  const { default: i18nextPlugin } = await env.$import(
     "https://cdn.jsdelivr.net/gh/inlang/plugin-i18next@1/dist/index.js"
   );
 
   return {
     referenceLanguage: "en",
     plugins: [
-      jsonPlugin({
+      i18nextPlugin({
         pathPattern: "./resources/{language}/*.json",
       })
     ]
@@ -26,13 +24,10 @@ export async function defineConfig(env) {
 }
 ```
 
-<br>
+## Settings
 
-## PluginSettings
+The plugin offers further configuration options that can be passed as arguments. The following settings exist:
 
-Our plugin offers further configuration options that can be passed as arguments. These options include `pathPattern` and `variableReferencePattern` (optional), and can be adjusted to suit your needs.
-
-Here is the syntax for the PluginSettings object in TypeScript:
 ```typescript
 type PluginSettings = {
   pathPattern: string;
@@ -44,19 +39,20 @@ type PluginSettings = {
 To use our plugin, you need to provide a path to the directory where your language-specific files are stored. Use the dynamic path syntax `{language}` to specify the language name. Note that subfile structures are not supported.
 
 **Most common for i18next with namespace support:**
+
 ```typescript
 pathPattern: "./resources/{language}/*.json"
 ```
+
 **Only one namespace:**
 ```typescript
 pathPattern: "./resources/{language}/translation.json"
 ```
+
 **Language as file name:**
 ```typescript
 pathPattern: "./resources/{language}.json"
 ```
-
-<br>
 
 ## Contributing
 

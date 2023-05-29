@@ -4,11 +4,15 @@ import type * as ast from "@inlang/core/ast";
 import { createPlugin } from "@inlang/core/plugin";
 import { throwIfInvalidSettings, type PluginSettings } from "./settings.js";
 import merge from "lodash.merge";
-import { addNestedKeys, collectStringsWithParents, detectJsonSpacing, type ExtendedMessagesType } from "./helper.js";
-
+import {
+  addNestedKeys,
+  collectStringsWithParents,
+  detectJsonSpacing,
+  type ExtendedMessagesType,
+} from "./helper.js";
 
 export const plugin = createPlugin<PluginSettings>(({ settings, env }) => ({
-  id: "samuelstroschein.inlangPluginJson",
+  id: "inlang.plugin-i18next",
   async config() {
     // will throw if the settings are invalid,
     // leading to better DX because fails fast
@@ -129,7 +133,7 @@ export async function readResources(
           parsedMassagesForAst,
           language,
           space,
-          args.settings.variableReferencePattern 
+          args.settings.variableReferencePattern
             ? args.settings.variableReferencePattern
             : ["{{", "}}"]
         )
@@ -192,7 +196,7 @@ export async function readResources(
           obj,
           language,
           space,
-          args.settings.variableReferencePattern 
+          args.settings.variableReferencePattern
             ? args.settings.variableReferencePattern
             : ["{{", "}}"]
         )
@@ -204,7 +208,7 @@ export async function readResources(
 
 /**
  * Parses a resource.
- * 
+ *
  * @example parseResource(resource, en, 2,["{{", "}}"])
  */
 function parseResource(
@@ -230,7 +234,7 @@ function parseResource(
 
 /**
  * Parses a message.
- * 
+ *
  * @example parseMessage("testId", "test", ["{{", "}}"])
  */
 function parseMessage(
@@ -305,7 +309,7 @@ function parseMessage(
 
 /**
  * Writing resources.
- * 
+ *
  * @example writeResources({resources, settings, $fs})
  */
 async function writeResources(
@@ -387,7 +391,7 @@ async function writeResources(
           serializeResource(
             splitedResource,
             space,
-            args.settings.variableReferencePattern 
+            args.settings.variableReferencePattern
               ? args.settings.variableReferencePattern
               : ["{{", "}}"]
           )
@@ -399,7 +403,7 @@ async function writeResources(
         serializeResource(
           resource,
           space,
-          args.settings.variableReferencePattern 
+          args.settings.variableReferencePattern
             ? args.settings.variableReferencePattern
             : ["{{", "}}"]
         )
@@ -410,7 +414,7 @@ async function writeResources(
 
 /**
  * Serializes a resource.
- * 
+ *
  * @example serializeResource(resource, 2, ["{{", "}}"])
  */
 function serializeResource(
@@ -431,7 +435,7 @@ function serializeResource(
 
 /**
  * Serializes a message.
- * 
+ *
  * @example serializeMessage(message, ["{{", "}}"])
  */
 const serializeMessage = (

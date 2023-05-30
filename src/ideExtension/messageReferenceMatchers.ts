@@ -1,5 +1,4 @@
 import { createToken, Lexer, EmbeddedActionsParser } from "chevrotain";
-import type { IdeExtensionConfigSchema } from "./schema.js";
 
 type Match = {
   messageId: string;

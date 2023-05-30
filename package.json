@@ -14,7 +14,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@inlang/core": "^0.8.2",
+    "@inlang/core": "0.9.1",
     "chevrotain": "^10.5.0",
     "flat": "^5.0.2",
     "lodash.merge": "^4.6.2"

@@ -64,7 +64,7 @@ describe("tFunction", () => {
 
   it("should ignore whitespace", () => {
     // prefixing with space see test above
-    const sourceCode = `t('some-id')`;
+    const sourceCode = ` t('some-id' ) `;
     const matches = parse(sourceCode);
     expect(matches[0].messageId === "some-id");
     expect(

@@ -18,6 +18,10 @@ const Character = createToken({
   pattern: /[^\s\\]/,
 });
 
+// const StringDelimiter = createToken({
+//   name: "StringDelimiter",
+// });
+
 const SingleQuotationMark = createToken({
   name: "SingleQuotationMark",
   pattern: /'/,
@@ -124,8 +128,13 @@ class Parser extends EmbeddedActionsParser {
       // that has contains the id of the message
       let id: string = "";
       this.MANY(() => {
-        const char = this.CONSUME2(Character);
-        id += char.image;
+        const char = this.OPTION({
+          GATE: () => this.LA(1).tokenType !== startOfMessageId.tokenType,
+          DEF: () => this.CONSUME(Character),
+        });
+        if (char?.image) {
+          id += char.image;
+        }
       });
       // end of the string (must be the same quotation token as the start)
       const endOfMessageId = this.OR2([
@@ -151,6 +160,17 @@ class Parser extends EmbeddedActionsParser {
           {
             ALT: () => this.CONSUME4(Character),
           },
+          // no idea why string delimiters are required explicitly
+          // and are not included in the Character token
+          {
+            ALT: () => this.CONSUME4(SingleQuotationMark),
+          },
+          {
+            ALT: () => this.CONSUME4(DoubleQuotationMark),
+          },
+          {
+            ALT: () => this.CONSUME4(TemplateLiteral),
+          },
         ])
       );
       // but at one point, a closing parenthesis (end of the function) must exist
@@ -165,7 +185,7 @@ class Parser extends EmbeddedActionsParser {
           },
           end: {
             line: endOfMessageId.endLine!,
-            character: endOfMessageId.endColumn!,
+            character: endOfMessageId.endOffset!,
           },
         },
       } satisfies Match;

@@ -205,7 +205,7 @@ const lexer = new Lexer(allTokens);
 const parser = new Parser();
 
 // wrapping it all together
-export function parse(text: any) {
+export async function parse(text: any) {
   const lexResult = lexer.tokenize(text);
 
   // setting a new input will RESET the parser instance's state.

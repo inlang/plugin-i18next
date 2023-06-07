@@ -4,7 +4,7 @@ import { plugin } from "./plugin.js";
 
 it("should throw if the path pattern does not include the {language} placeholder", async () => {
   const env = await mockEnvironment({});
-  await env.$fs.writeFile("./resources/en.json", "{}");
+  await env.$fs.writeFile("./en.json", "{}");
   const x = plugin({ pathPattern: "./resources/" })(env);
   try {
     await x.config({});
@@ -16,7 +16,7 @@ it("should throw if the path pattern does not include the {language} placeholder
 
 it("should not throw if the path pattern is valid", async () => {
   const env = await mockEnvironment({});
-  await env.$fs.writeFile("./resources/en.json", "{}");
-  const x = plugin({ pathPattern: "./resources/{language}.json" })(env);
+  await env.$fs.writeFile("./en.json", "{}");
+  const x = plugin({ pathPattern: "./{language}.json" })(env);
   expect(await x.config({})).toBeTruthy();
 });

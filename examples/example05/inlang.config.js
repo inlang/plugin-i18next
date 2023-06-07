@@ -8,9 +8,7 @@ export async function defineConfig(env) {
     referenceLanguage: "en",
     plugins: [
       plugin({
-        pathPattern: "./example03/{language}.json",
-        variableReferencePattern: ["@:"],
-        ignore: ["test.json"]
+        pathPattern: "./examples/example05/{language}/*.json",
       }),
     ],
   };

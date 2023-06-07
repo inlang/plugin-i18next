@@ -1,8 +1,0 @@
-{
-  "parent.a": {
-    "404": {
-      "contains_pii": "{Contains} PII",
-      "contains_pii.one_desc": "Contains personally identifying information"
-    }
-  } 
-}

@@ -10,6 +10,7 @@ import {
   detectJsonSpacing,
   type ExtendedMessagesType,
 } from "./helper.js";
+import { ideExtensionConfig } from "./ideExtension/config.js";
 
 export const plugin = createPlugin<PluginSettings>(({ settings, env }) => ({
   id: "inlang.plugin-i18next",
@@ -22,19 +23,20 @@ export const plugin = createPlugin<PluginSettings>(({ settings, env }) => ({
         $fs: env.$fs,
         settings,
       }),
-      readResources: async (args) =>
+      readResources: (args) =>
         readResources({
           ...args,
           $fs: env.$fs,
           settings,
         }),
-      writeResources: async (args) =>
+      writeResources: (args) =>
         writeResources({
           ...args,
           $fs: env.$fs,
           settings,
         }),
-    };
+      ideExtension: ideExtensionConfig,
+    } satisfies Partial<InlangConfig>;
   },
 }));
 
@@ -106,9 +108,9 @@ export async function readResources(
         encoding: "utf-8",
       })) as string;
       const space = detectJsonSpacing(
-        await args.$fs.readFile(resourcePath, {
+        (await args.$fs.readFile(resourcePath, {
           encoding: "utf-8",
-        })
+        })) as string
       );
       const extendedMessages = collectStringsWithParents(
         JSON.parse(stringifiedFile)
@@ -147,9 +149,9 @@ export async function readResources(
         files.length === 0
           ? 2
           : detectJsonSpacing(
-              await args.$fs.readFile(`${path}/${files[0]}`, {
+              (await args.$fs.readFile(`${path}/${files[0]}`, {
                 encoding: "utf-8",
-              })
+              })) as string
             );
 
       if (files.length !== 0) {

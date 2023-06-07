@@ -8,7 +8,6 @@ This plugin reads and writes resources in combination with i18next.
 // filename: inlang.config.js
 
 export async function defineConfig(env) {
-
   const { default: i18nextPlugin } = await env.$import(
     "https://cdn.jsdelivr.net/gh/inlang/plugin-i18next@1/dist/index.js"
   );
@@ -18,8 +17,8 @@ export async function defineConfig(env) {
     plugins: [
       i18nextPlugin({
         pathPattern: "./resources/{language}/*.json",
-      })
-    ]
+      }),
+    ],
   };
 }
 ```
@@ -41,17 +40,19 @@ To use our plugin, you need to provide a path to the directory where your langua
 **Most common for i18next with namespace support:**
 
 ```typescript
-pathPattern: "./resources/{language}/*.json"
+pathPattern: "./resources/{language}/*.json";
 ```
 
 **Only one namespace:**
+
 ```typescript
-pathPattern: "./resources/{language}/translation.json"
+pathPattern: "./resources/{language}/translation.json";
 ```
 
 **Language as file name:**
+
 ```typescript
-pathPattern: "./resources/{language}.json"
+pathPattern: "./resources/{language}.json";
 ```
 
 ## Contributing

@@ -8,7 +8,7 @@
       referenceLanguage: "en",
       plugins: [
         plugin({
-          pathPattern: "./example06/{language}/*.json"
+          pathPattern: "./examples/example06/{language}/*.json"
         }),
       ],
     };

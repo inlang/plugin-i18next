@@ -1,7 +1,15 @@
 import { it, expect, describe } from "vitest";
 import { parse } from "./messageReferenceMatchers.js";
 
-describe("tFunction", () => {
+it("should not match a string without a t function", async () => {
+  const sourceCode = `
+    const x = some("some-id")
+    `;
+  const matches = await parse(sourceCode);
+  expect(matches).toHaveLength(0);
+});
+
+describe("Function", () => {
   it('should detect t("{id}")', async () => {
     // double quotes
     const sourceCode = `
@@ -52,7 +60,6 @@ describe("tFunction", () => {
     <p>{$t("yes')}</p>
     `;
     const matches = await parse(sourceCode);
-    console.log(matches);
     expect(matches).toHaveLength(0);
   });
 

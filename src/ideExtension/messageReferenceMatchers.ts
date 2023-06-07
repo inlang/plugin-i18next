@@ -84,7 +84,7 @@ class Parser extends EmbeddedActionsParser {
             ALT: () => {
               const match = this.SUBRULE(
                 // @ts-expect-error - The parser is only partially typesafe.
-                this.tFunction
+                this.ReferenceViaFunction
               );
               result.push(match as Match);
             },
@@ -107,30 +107,43 @@ class Parser extends EmbeddedActionsParser {
      *  t("some-id")
      *  t('some-id')
      */
-    this.RULE("tFunction", () => {
-      // function name is a single character (t)
-      this.CONSUME1(Character);
+    this.RULE("ReferenceViaFunction", () => {
+      // Message is referenced with a function named
+      this.OR4([
+        {
+          // next character is t
+          GATE: () => this.LA(1).image === "t",
+          // thus consume it
+          ALT: () => this.CONSUME6(Character),
+        },
+      ]);
+
       // must be followed by an opening parenthesis
       this.CONSUME(OpeningParenthesis);
       // must be followed by the start of a string
       const startOfMessageId = this.OR1([
         {
+          // single quotation mark '
           ALT: () => this.CONSUME1(SingleQuotationMark),
         },
         {
+          // double quoatation mark "
           ALT: () => this.CONSUME1(DoubleQuotationMark),
         },
         {
+          // or template literal `
           ALT: () => this.CONSUME(TemplateLiteral),
         },
       ]);
       // that has contains the id of the message
       let id: string = "";
       this.MANY(() => {
+        // can be any character except the end of the string (must be the same quotation token as the start)
         const char = this.OPTION({
           GATE: () => this.LA(1).tokenType !== startOfMessageId.tokenType,
           DEF: () => this.CONSUME(Character),
         });
+        // if the character is not undefined, add it to the id
         if (char?.image) {
           id += char.image;
         }

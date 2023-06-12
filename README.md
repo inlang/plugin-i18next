@@ -1,4 +1,10 @@
-# inlang-plugin-i18next
+# ----- DEPRECATED -----
+
+Use https://github.com/inlang/inlang/tree/main/source-code/plugins/i18next instead.
+
+---
+
+## inlang-plugin-i18next
 
 This plugin reads and writes resources in combination with i18next.
 
